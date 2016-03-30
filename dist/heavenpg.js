@@ -10,7 +10,7 @@
     }
     global.heavenPG = heavenPG;
 })(typeof window !== "undefined" ? window : "undefined",typeof jQuery !== "undefined" ? jQuery : "undefined", function (Global,$) {
-    var option={id:'',total:1,visible:5,pgLength:10,onclick:'',next:'next',prev:'back',current:1};
+    var option={id:'',total:1,visible:5,pgLength:3,onclick:'',next:'next',prev:'back',current:1};
     var generate={
         visible : function(){
             var visible;
@@ -85,21 +85,6 @@
         });
         return $;
     };
-    var on= function (id) {
-        return {
-            click :function(callback){ // jQuery identifier not working event attribute & tag add dynamically
-                $(document).on('click', id, function(event) { // this (jQuery) method is working
-                    callback($(this));
-                    event.preventDefault();
-                });
-            },
-            dblclick :function(callback){ // jQuery identifier not working event attribute & tag add dynamically
-                $(document).on('dblclick', id, function() { // this (jQuery) method is working
-                    callback($(this));
-                });
-            }
-        };
-    };
     var heavenPG = function(data){
         typeof data == 'object' && $.extend(option,data);
     };
@@ -118,6 +103,7 @@
     heavenPG.prototype.execute=function(data){
         typeof data == 'object' && $.extend(option,data);
         typeof option.onclick == 'function' && (function(option,$){
+            option.total==0 && (option.total=1);
             if(option.id!=='' && option.total!==0){
                 var i=1;
                 //looping action
