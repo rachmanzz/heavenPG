@@ -29,7 +29,18 @@
                 action=option.current!=1 && self.parent().find('li.active').prev();
             }
             return action;
+        },
+        disableIs:function(self){
+            option.current==1 && self.parent().find('li').first().addClass('disabled');
+            option.current==option.total && self.parent().find('li').last().addClass('disabled');
         }
+    };
+    $.fn.heavenClick= function (callback) {
+        $(document).on('click', $(this).selector, function(event) { // this (jQuery) method is working
+            callback($(this));
+            event.preventDefault();
+        });
+        return $;
     };
     var on= function (id) {
         return {
@@ -58,6 +69,7 @@
         typeof option.onclick == 'function' && (function(option,$){
             if(option.id!=='' && option.total!==0){
                 var i=1;
+                //looping action
                 $(option.id).append($('<li>').append( $('<a>').text(option.prev).attr('href','#') ));
                 for(i; i <= option.total; i++){
                     if(option.current==i){
@@ -67,27 +79,41 @@
                     }
                 }
                 $(option.id).append($('<li>').append( $('<a>').text(option.next).attr('href','#') ));
+                //looping stop
                 nextPrev.set($(option.id).find('li'));
-                on(option.id + ' li').click(function ($this) {
+                // click an action
+                $(option.id).find('li').heavenClick(function ($this) {
                     var active =$this.hasClass('active'), disabled= $this.hasClass('disabled');
-                    var get=nextPrev.execute($this);
-                    $this.parent().find('li').removeClass('active');
-                    typeof get !== "boolean" && get.addClass('active');
-                    $(option.id).find('li').removeClass('disabled');
+                    // find class active or disable
                     if(!active && !disabled){
-                        if($this.find('a').text()!=option.next && $this.find('a').text() != option.prev){
+                        // work over here
+                        // Initialize next or prev action
+                        var get=nextPrev.execute($this);
+                        // remove active and disable class
+                        $this.parent().find('li').removeClass('active');
+                        $(option.id).find('li').removeClass('disabled');
+                        //check if next or prev is in action
+                        if(typeof get ==='boolean'){
+                            option.current=$this.find('a').text();
                             $this.addClass('active');
+                        }else{
+                            option.current=get.text();
+                            get.addClass('active');
                         }
-                        option.current=$this.find('a').text();
-                        option.current==1 && $(option.id).find('li').first().addClass('disabled');
-                        option.current==option.total && $(option.id).find('li').last().addClass('disabled');
-                        option.onclick(option.current);
+                        // make it disable
+                        nextPrev.disableIs($this);
+                        option.onclick(option.current,$this.find('a').text());
                     }
                     return false;
                 });
             }
 
         })(option,$);
+    };
+    heavenPG.prototype.total= function (data) {
+        if(typeof data == 'number'){
+            option.total=data;
+        }
     };
     heavenPG.prototype.rebuild= function (data) {
         if(typeof data == 'number'){
