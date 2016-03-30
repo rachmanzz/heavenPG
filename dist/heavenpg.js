@@ -10,7 +10,50 @@
     }
     global.heavenPG = heavenPG;
 })(typeof window !== "undefined" ? window : "undefined",typeof jQuery !== "undefined" ? jQuery : "undefined", function (Global,$) {
-    var option={id:'',total:0,visible:5,pgLength:3,onclick:'',next:'next',prev:'back',current:10};
+    var option={id:'',total:1,visible:5,pgLength:10,onclick:'',next:'next',prev:'back',current:1};
+    var generate={
+        visible : function(){
+            var visible;
+            if(option.visible<=option.total){
+                visible = option.visible;
+            }else{
+                visible=option.total;
+            }
+            return visible;
+        },
+        text:function($this){
+            var i, list=$($this).parent().find('li.pg').find('a'), first = list.first().text(),last =list.last().text();
+            option.visible <= option.pgLength && (option.pgLength=option.visible-1);
+            function change(i){
+                var current = parseInt(option.current);
+                i=i-1;
+                list.each(function () {
+                    i++;
+                    if(i<=option.total){
+                        if(i==current){
+                            $(this).parent().addClass('active').find('a').text(i);
+                        }else{
+                            $(this).text(i);
+                        }
+                    }else{
+                        $(this).parent().hide();
+                    }
+                });
+            }
+            if(last==option.current && parseInt(last) != option.total){
+                i=parseInt(last)+option.pgLength-option.visible;
+                $($this).parent().find('li.pg').removeClass('active');
+                change(i);
+            }
+
+            if(first==option.current && parseInt(first) != 1){
+                i= (parseInt(first)-option.pgLength+1)>=0 ? (parseInt(first)-option.pgLength+1) : 1;
+                $($this).parent().find('li.pg').removeClass('active');
+                $(option.id).find('li').show();
+                change(i);
+            }
+        }
+    };
     var nextPrev={
         set:function(self) {
             if (option.current == '1') {
@@ -64,6 +107,14 @@
         option.id=data;
         return this;
     };
+    heavenPG.prototype.data=function(data){
+        typeof data == 'object' && $.extend(option,data);
+    };
+    heavenPG.prototype.total= function (data) {
+        if(typeof data == 'number'){
+            option.total=data;
+        }
+    };
     heavenPG.prototype.execute=function(data){
         typeof data == 'object' && $.extend(option,data);
         typeof option.onclick == 'function' && (function(option,$){
@@ -71,11 +122,11 @@
                 var i=1;
                 //looping action
                 $(option.id).append($('<li>').append( $('<a>').text(option.prev).attr('href','#') ));
-                for(i; i <= option.total; i++){
+                for(i; i <= generate.visible(); i++){
                     if(option.current==i){
-                        $(option.id).append($('<li>').addClass('active').append( $('<a>').text(i).attr('href','#') ));
+                        $(option.id).append($('<li>').addClass('active pg').append( $('<a>').text(i).attr('href','#') ));
                     }else{
-                        $(option.id).append($('<li>').append( $('<a>').text(i).attr('href','#') ));
+                        $(option.id).append($('<li>').addClass('pg').append( $('<a>').text(i).attr('href','#') ));
                     }
                 }
                 $(option.id).append($('<li>').append( $('<a>').text(option.next).attr('href','#') ));
@@ -100,6 +151,7 @@
                             option.current=get.text();
                             get.addClass('active');
                         }
+                        generate.text($this);
                         // make it disable
                         nextPrev.disableIs($this);
                         option.onclick(option.current,$this.find('a').text());
@@ -109,33 +161,6 @@
             }
 
         })(option,$);
-    };
-    heavenPG.prototype.total= function (data) {
-        if(typeof data == 'number'){
-            option.total=data;
-        }
-    };
-    heavenPG.prototype.rebuild= function (data) {
-        if(typeof data == 'number'){
-            option.total=data;
-        }
-        if(typeof data == 'object'){
-            $.extend(option,data);
-        }
-        if(option.id!=='' && option.total!==0){
-            $(option.id).html('');
-            var i=1;
-            $(option.id).append($('<li>').append( $('<a>').text(option.prev).attr('href','#') ));
-            for(i; i <= option.total; i++){
-                if(option.current==i){
-                    $(option.id).append($('<li>').addClass('active').append( $('<a>').text(i).attr('href','#') ));
-                }else{
-                    $(option.id).append($('<li>').append( $('<a>').text(i).attr('href','#') ));
-                }
-            }
-            $(option.id).append($('<li>').append( $('<a>').text(option.next).attr('href','#') ));
-            nextPrev.set($(option.id).find('li'));
-        }
     };
     return heavenPG;
 });
