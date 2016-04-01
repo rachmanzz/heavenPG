@@ -50,15 +50,6 @@ heaven.execute();
 <h3>example</h3>
 <!-- DC Pagination:C8 Start -->
 <ul class="tsc_pagination tsc_paginationC tsc_paginationC08">
-  <li><a href="#" class="first">First</a></li>
-  <li><a href="#" class="previous">Previous</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#" class="current">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#" class="next">Next</a></li>
-  <li><a href="#" class="last">Last</a></li>
 </ul>
 <!-- DC Pagination:C8 End -->
 <h3>
@@ -160,7 +151,20 @@ heaven.execute();
       </footer>
 
     </section>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="stylesheet/heavenpg.js"></script>
+    <script>
+    var heaven= new heavenPG({
+        id :'ul.tsc_pagination',
+        total:13,
+        current:6,
+        onclick:function(page){
+            console.log(page);
+        }
+    });
+    heaven.execute();
+    
+</script>
   
   </body>
 </html>
