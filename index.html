@@ -8,7 +8,32 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="http://www.dreamtemplate.com/dreamcodes/pagination/css/tsc_pagination.css">
+    <style>
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {display: inline;}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+}
+
+ul.pagination li.active a{
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+ul.pagination li a:hover:not(.active) {background-color: #ddd;}
+</style>
   </head>
   <body>
     <section class="page-header">
@@ -49,7 +74,7 @@ heaven.execute();
 </code></pre>
 <h3>example</h3>
 <!-- DC Pagination:C8 Start -->
-<ul class="tsc_pagination tsc_paginationC tsc_paginationC08">
+<ul class="pagination">
 </ul>
 <!-- DC Pagination:C8 End -->
 <h3>
@@ -155,7 +180,7 @@ heaven.execute();
     <script src="dist/heavenpg.min.js"></script>
     <script>
     var heaven= new heavenPG({
-        id :'ul.tsc_pagination',
+        id :'ul.pagination',
         total:10,
         current:3,
         onclick:function(page){
