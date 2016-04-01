@@ -47,12 +47,37 @@
             }
 
             if(first==option.current && parseInt(first) != 1){
-                i= (parseInt(first)-option.pgLength+1)>=0 ? (parseInt(first)-option.pgLength+1) : 1;
+                i= (parseInt(first)-option.pgLength+1)>=1 ? (parseInt(first)-option.pgLength+1) : 1;
                 $($this).parent().find('li.pg').removeClass('active');
                 $(option.id).find('li').show();
                 change(i);
             }
+        },
+        rebuild: function () {
+            
+        },
+        current: function () {
+            option.current = parseInt(option.current);
+            option.current = option.current <= option.total && option.current >=1 ? option.current : 1;
+            var  start, visible;
+            if(option.current<option.visible){
+                start=1;
+                visible=option.visible<=option.total ? option.visible : option.total;
+            }else{
+                start = option.current-option.pgLength;
+                visible=start+option.visible-1;
+                visible=visible<=option.total?visible:option.total;
+                if((visible-start)<option.visible){
+                    start= start - (option.visible-(visible-start))+1;
+                }
+            }
+            return {
+                start : start,
+                    visible: visible
+            };
+
         }
+
     };
     var nextPrev={
         set:function(self) {
@@ -95,20 +120,22 @@
     heavenPG.prototype.data=function(data){
         typeof data == 'object' && $.extend(option,data);
     };
-    heavenPG.prototype.total= function (data) {
+    heavenPG.prototype.makeChange= function (data) {
+        var last = option.total;
         if(typeof data == 'number'){
             option.total=data;
         }
-    };
-    heavenPG.prototype.execute=function(data){
-        typeof data == 'object' && $.extend(option,data);
-        typeof option.onclick == 'function' && (function(option,$){
+        if(typeof data == 'object'){
+            $.extend(option,data);
+        }
+        if((last <= option.visible  && last != option.total) || (last >= option.visible && option.total < option.visible)){
             option.total==0 && (option.total=1);
             if(option.id!=='' && option.total!==0){
-                var i=1;
+                $(option.id).html('');
+                var i=generate.current().start;
                 //looping action
                 $(option.id).append($('<li>').append( $('<a>').text(option.prev).attr('href','#') ));
-                for(i; i <= generate.visible(); i++){
+                for(i; i <= generate.current().visible; i++){
                     if(option.current==i){
                         $(option.id).append($('<li>').addClass('active pg').append( $('<a>').text(i).attr('href','#') ));
                     }else{
@@ -117,6 +144,28 @@
                 }
                 $(option.id).append($('<li>').append( $('<a>').text(option.next).attr('href','#') ));
                 //looping stop
+                nextPrev.set($(option.id).find('li'));
+            }
+        }
+    };
+    heavenPG.prototype.execute=function(data){
+        typeof data == 'object' && $.extend(option,data);
+        typeof option.onclick == 'function' && (function(option,$){
+            option.total==0 && (option.total=1);
+            if(option.id!=='' && option.total!==0){
+                var i=generate.current().start;
+                //looping action
+                $(option.id).append($('<li>').append( $('<a>').text(option.prev).attr('href','#') ));
+                for(i; i <= generate.current().visible; i++){
+                    if(option.current==i){
+                        $(option.id).append($('<li>').addClass('active pg').append( $('<a>').text(i).attr('href','#') ));
+                    }else{
+                        $(option.id).append($('<li>').addClass('pg').append( $('<a>').text(i).attr('href','#') ));
+                    }
+                }
+                $(option.id).append($('<li>').append( $('<a>').text(option.next).attr('href','#') ));
+                //looping stop
+                generate.current();
                 nextPrev.set($(option.id).find('li'));
                 // click an action
                 $(option.id).find('li').heavenClick(function ($this) {
@@ -148,5 +197,5 @@
 
         })(option,$);
     };
-    return heavenPG; 
+    return heavenPG;
 });

@@ -18,7 +18,7 @@ jQuery Pagination with bootstrap style
     heaven.execute();
     
 ### change total page
-    heaven.total(16); // make change total page
+    heaven.makeChange(16); // make change total page
     
 ## other function
 |Method|type| 
