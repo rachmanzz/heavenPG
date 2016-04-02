@@ -53,9 +53,6 @@
                 change(i);
             }
         },
-        rebuild: function () {
-            
-        },
         current: function () {
             option.current = parseInt(option.current);
             option.current = option.current <= option.total && option.current >=1 ? option.current : 1;
@@ -146,6 +143,28 @@
                 //looping stop
                 nextPrev.set($(option.id).find('li'));
             }
+        }else{
+            var list = $(option.id).find('li.pg');
+            function change(i){
+                var current = parseInt(option.current);
+                i=i-1;
+                list.each(function () {
+                    i++;
+                    if(i<=option.total){
+                        if(i==current){
+                            $(this).addClass('active').find('a').text(i);
+                        }else{
+                            $(this).find('a').text(i);
+                        }
+                    }else{
+                        $(this).hide();
+                    }
+                });
+            }
+            list.removeClass('active');
+            change(generate.current().start);
+            nextPrev.set($(option.id).find('li'));
+
         }
     };
     heavenPG.prototype.execute=function(data){
