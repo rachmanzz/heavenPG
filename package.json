@@ -1,0 +1,26 @@
+{
+  "name": "heavenpg",
+  "version": "0.1.1",
+  "description": "pagination jQuery with bootstrap style",
+  "main": "dist/heavenpg.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rachmanzz/heavenPG.git"
+  },
+  "keywords": [
+    "jquery",
+    "library",
+    "pagination",
+    "javascript",
+    "easy"
+  ],
+  "author": "Muhammad Abdurrahman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rachmanzz/heavenPG/issues"
+  },
+  "homepage": "https://github.com/rachmanzz/heavenPG#readme"
+}
