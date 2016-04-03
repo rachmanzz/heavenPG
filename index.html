@@ -85,7 +85,7 @@ pagination css from : http://www.w3schools.com/css/css3_pagination.asp
 
 <pre><code>heaven.makeChange(16); // make change total page
 </code></pre>
-<ul class="pagination">
+<ul class="pagination c">
 </ul>
 <br>
 <button class="change">make change : 16</button>
@@ -193,9 +193,18 @@ pagination css from : http://www.w3schools.com/css/css3_pagination.asp
             $('div#testpage').html("current on page : "+page);
         }
     });
+    var heavenC= new heavenPG({
+        id :'ul.pagination.c',
+        total:10,
+        current:3,
+        onclick:function(page){
+            $('div#testpage').html("current on page : "+page);
+        }
+    });
     heaven.execute();
+    heavenC.execute();
     $('button.change').click(function () {
-        heaven.makeChange({
+        heavenC.makeChange({
             total : 16,
             current: 14
         });
