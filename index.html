@@ -78,15 +78,13 @@ heaven.execute();
 </div>
 <br>
 pagination css from : http://www.w3schools.com/css/css3_pagination.asp
-<ul class="pagination a">
+<ul class="pagination">
 </ul>
 <h3>
 <a id="change-total-page" class="anchor" href="#change-total-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>change total page</h3>
 
 <pre><code>heaven.makeChange(16); // make change total page
 </code></pre>
-<ul class="pagination c">
-</ul>
 <br>
 <button class="change">make change : 16</button>
 <h2>
@@ -186,15 +184,7 @@ pagination css from : http://www.w3schools.com/css/css3_pagination.asp
     <script src="dist/heavenpg.min.js"></script>
     <script>
     var heaven= new heavenPG({
-        id :'ul.pagination.a',
-        total:10,
-        current:3,
-        onclick:function(page){
-            $('div#testpage').html("current on page : "+page);
-        }
-    });
-    var heavenC= new heavenPG({
-        id :'ul.pagination.c',
+        id :'ul.pagination',
         total:10,
         current:3,
         onclick:function(page){
@@ -202,9 +192,8 @@ pagination css from : http://www.w3schools.com/css/css3_pagination.asp
         }
     });
     heaven.execute();
-    heavenC.execute();
     $('button.change').click(function () {
-        heavenC.makeChange({
+        heaven.makeChange({
             total : 16,
             current: 14
         });
