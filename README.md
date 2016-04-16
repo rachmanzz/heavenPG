@@ -8,7 +8,7 @@ jQuery Pagination with bootstrap style
     <script src="dist/heavenpg.min.js"></script>
         
 ## Usage
-    var heaven= heavenPG({
+    var heaven= new heavenPG({
         id : 'ul#pagnition',
         total: 10, // page total
         onclick:function(page,event){
