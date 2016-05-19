@@ -70,7 +70,7 @@
             }
             return {
                 start : start,
-                    visible: visible
+                visible: visible
             };
 
         }
@@ -108,7 +108,9 @@
         return $;
     };
     var heavenPG = function(data){
+
         typeof data == 'object' && $.extend(option,data);
+
     };
     heavenPG.prototype.id=function(data){
         option.id=data;
