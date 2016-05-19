@@ -186,7 +186,6 @@
             Option.total==0 && (Option.total=1);
             if(Option.id!=='' && Option.total!==0){
                 $(Option.id).html('');
-                console.log(Generate.current());
                 var i=Generate.current().start;
                 //looping action
                 $(Option.id).append($('<li>').append( $('<a>').text(Option.prev).attr('href','#') ));
